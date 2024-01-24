@@ -1,0 +1,5 @@
+.main {
+    background-color: var(--surface-color);
+    height: 100%;
+    width: 60%;
+}
