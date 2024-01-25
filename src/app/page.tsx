@@ -6,6 +6,7 @@ export default function Home() {
     <main className={styles.main}>
       <h1 className={styles.header}>Expediente Digital</h1>
       <SearchBar/>
+      <div className={styles.divBar}/>
     </main>
   );
 }
