@@ -10,7 +10,7 @@
 }
 
 .divBar {
-    height: 2px;
+    height: 1px;
     background: linear-gradient(90deg, var(--text-color), var(--transparent-text-color));
     margin-top: 50px;
     width: 100%;
