@@ -3,6 +3,7 @@
     height: 38px;
     font-size: 20px;
     padding: 0 20px;
+    padding-right: 30px;
     border-radius: 20px;
     border: 2px solid var(--transparent-text-color);
 }
@@ -10,4 +11,17 @@
 .searchBar:focus {
     outline: none;
     border: 2px solid var(--text-color);
+}
+
+.searchIcon {
+    position: absolute;
+    display: block;
+    left: 80.5%;
+    transform: translateY(-35px);
+    width: 30px;
+    height: 30px;
+}
+
+.main {
+
 }
