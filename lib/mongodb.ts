@@ -1,5 +1,6 @@
 // lib/mongodb.ts
 import mongoose from 'mongoose';
+import gridfsStream from 'gridfs-stream';
 
 const MONGODB_URI = process.env.MONGODB_URI as string;
 
@@ -13,6 +14,7 @@ if (!MONGODB_URI) {
  * during API Route usage.
  */
 let cached = global.mongoose;
+let gfs: gridfsStream.Grid | null = null;
 
 if (!cached) {
     cached = global.mongoose = { conn: null, promise: null };
@@ -37,11 +39,15 @@ async function dbConnect(): Promise<mongoose.Connection> {
         };
 
         cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-        return mongoose.connection;
+            // initialize gridfs
+            gfs = gridfsStream(mongoose.connection.db, mongoose.mongo);
+            gfs.collection('pdfs');
+
+            return mongoose.connection;
         });
     }
     cached.conn = await cached.promise;
     return cached.conn;
 }
 
-export default dbConnect;
+export { dbConnect, gfs };
