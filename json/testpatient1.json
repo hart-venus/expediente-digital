@@ -1,0 +1,15 @@
+{
+    "fullName": "John Doe",
+    "governmentId": "123456789",
+    "birthDate": "1980-01-01",
+    "phoneNumber": "555-0101",
+    "email": "johndoe@example.com",
+    "familyBackground": "No significant history",
+    "pathologicBackground": "None",
+    "nonPathologicBackground": "Non-smoker, occasional alcohol",
+    "chirurgicalBackground": "Appendectomy at age 12",
+    "ginecoObstetricBackground": "N/A",
+    "diagnosis": "Hypertension",
+    "treatment": "Lisinopril 10mg daily",
+    "examPdfPath": "path/to/john_doe_exam.pdf"
+}
