@@ -4,6 +4,7 @@ interface IPatient extends Document {
     fullName: string;
     governmentId: string;
     birthDate: Date;
+    isActive: boolean;
     phoneNumber: string;
     email: string;
     familyBackground: string;
@@ -84,6 +85,10 @@ const PatientSchema = new Schema<IPatient>({
         required: false, // This can be optional based on your requirements
         trim: true
     },
+    isActive: {
+        type: Boolean,
+        default: true
+    }
 }, {
   timestamps: true // Adds createdAt and updatedAt timestamps
 });
