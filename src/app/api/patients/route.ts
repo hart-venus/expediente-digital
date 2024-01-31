@@ -31,7 +31,11 @@ export async function POST(req: Request) {
         let json = {};
         for (const entry of (form.entries() as any)) {
             (json as any)[entry[0]] = entry[1];
-        }        
+        }
+        // give meaningful error message if there's a dup key (governmentId)
+        if ((json as any)["governmentId"] && await Patient.exists({ governmentId: (json as any)["governmentId"] })) {
+            throw new Error("Ya existe un paciente con ese número de identificación");
+        }
         //await multerUpload(req, res);
         if (form.get("file")) {
             console.log("file found");
