@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import mongoose from "mongoose";
 import { Readable } from "stream";
 import { v4 as uuidv4 } from "uuid";
 import { dbConnect, gfs } from "../../../../lib/mongodb";
@@ -71,10 +72,11 @@ export async function POST(req: Request) {
 
         // fetching file from gridfs for debugging purposes
         if ((json as any)["examPdfPath"]) {
-            const fileId = (json as any)["examPdfPath"];
+            const fileId : string = (json as any)["examPdfPath"];
+            const objectId = new mongoose.Types.ObjectId(fileId);
             try {
                 let uploadedFileContent = await new Promise<Buffer>((resolve, reject) => {
-                    const readStream = gfs!.openDownloadStreamByName(fileId);
+                    const readStream = gfs!.openDownloadStream(objectId);
                     let chunks: Buffer[] = [];
                     readStream.on('data', (chunk) => {
                         chunks.push(Buffer.from(chunk));
