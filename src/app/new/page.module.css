@@ -1,0 +1,31 @@
+.main {
+    background-color: var(--surface-color);
+    height: 100%;
+    width: 60%;
+}
+
+
+.header {
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
+.divBar {
+    height: 1px;
+    background: linear-gradient(90deg, var(--text-color), var(--transparent-text-color));
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 20px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    transform: translateX(-48px);
+}
+
+.icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 16px;
+}
