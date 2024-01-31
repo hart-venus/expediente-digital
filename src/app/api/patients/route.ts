@@ -71,6 +71,8 @@ export async function POST(req: Request) {
         await newPatient.save();
 
         // fetching file from gridfs for debugging purposes
+        /* 
+        
         if ((json as any)["examPdfPath"]) {
             const fileId : string = (json as any)["examPdfPath"];
             const objectId = new mongoose.Types.ObjectId(fileId);
@@ -87,13 +89,11 @@ export async function POST(req: Request) {
                     readStream.on('error', reject);
                 });
 
-                return NextResponse.json({ message: "Patient created successfully", file: uploadedFileContent.toString('base64') }, { status: 201 });
-
             } catch (error) {
                 console.log(error);
             }
         }
-
+        */
         return NextResponse.json({ message: "Patient created successfully" }, { status: 201 });
         
     } catch (e: any) {
