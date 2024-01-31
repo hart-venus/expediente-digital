@@ -23,22 +23,20 @@ const multerUpload = (req: NextApiRequest, res: NextApiResponse) => {
     )}
 )}
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: Request) {
     await dbConnect();
     try {
-        // read ReadableStream from req.body
-        let body = '';
-        let textDecoder = new TextDecoder();
-        for await (const chunk of (req.body as any)) {
-            body += textDecoder.decode(chunk);
-        }
-        let json = JSON.parse(body);
-        let data = patientSchema.parse(json);
-
-        await multerUpload(req, res);
-        if ((req as MulterRequest).file) {
+        const form = await req.formData();
+        // translate form data to name: value json
+        let json = {};
+        for (const entry of (form.entries() as any)) {
+            (json as any)[entry[0]] = entry[1];
+        }        
+        //await multerUpload(req, res);
+        if (form.get("file")) {
             console.log("file found");
         }
+        const data = patientSchema.parse(json);
         const newPatient = new Patient(data);
         await newPatient.save();
         return NextResponse.json({ message: "Patient created successfully" }, { status: 201 });
