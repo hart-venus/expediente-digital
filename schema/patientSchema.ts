@@ -9,7 +9,7 @@ const patientSchema = z.object({
         .min(1, 'Se requiere un número de identificación')
         .transform((str) => str.trim()),
     isActive: z.boolean().default(true),
-    birthDate: z.date(),
+    birthDate: z.string().transform((str) => new Date(str)),
     phoneNumber: z.string()
         .optional()
         .transform((str) => str ? str.trim() : str),
