@@ -32,15 +32,17 @@ export async function POST(req: Request) {
         for (const entry of (form.entries() as any)) {
             (json as any)[entry[0]] = entry[1];
         }
-        // give meaningful error message if there's a dup key (governmentId)
-        if ((json as any)["governmentId"] && await Patient.exists({ governmentId: (json as any)["governmentId"] })) {
-            throw new Error("Ya existe un paciente con ese número de identificación");
-        }
+
         //await multerUpload(req, res);
         if (form.get("file")) {
             console.log("file found");
         }
         const data = patientSchema.parse(json);
+        
+        // give meaningful error message if there's a dup key (governmentId)
+        if ((json as any)["governmentId"] && await Patient.exists({ governmentId: (json as any)["governmentId"] })) {
+            throw new Error("Ya existe un paciente con ese número de identificación");
+        }
         const newPatient = new Patient(data);
         await newPatient.save();
         return NextResponse.json({ message: "Patient created successfully" }, { status: 201 });
