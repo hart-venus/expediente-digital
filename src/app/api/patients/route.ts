@@ -5,14 +5,14 @@ import patientSchema from "../../../../schema/patientSchema";
 import { NextApiRequest, NextApiResponse } from "next";
 import multer from "multer";
 
-interface MulterRequest extends Request {
+interface MulterRequest extends NextApiRequest {
     file: any;
 }
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage }).single("examPdf");
 
-const multerUpload = (req: Request, res: NextApiResponse) => {
+const multerUpload = (req: NextApiRequest, res: NextApiResponse) => {
     new Promise<void> ((resolve, reject) => {
         upload(req as any, res as any, (uploadError: any) => {
             if (uploadError && uploadError.code !== 'LIMIT_UNEXPECTED_FILE') {
@@ -23,7 +23,7 @@ const multerUpload = (req: Request, res: NextApiResponse) => {
     )}
 )}
 
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: NextApiRequest, res: NextApiResponse) {
     await dbConnect();
     try {
         // read ReadableStream from req.body
@@ -33,9 +33,9 @@ export async function POST(req: Request, res: NextApiResponse) {
             body += textDecoder.decode(chunk);
         }
         let json = JSON.parse(body);
+        let data = patientSchema.parse(json);
 
         await multerUpload(req, res);
-        const data = patientSchema.parse(json);
         if ((req as MulterRequest).file) {
             console.log("file found");
         }
