@@ -1,27 +1,27 @@
-import { NextRequest, NextResponse } from "next/server";
-import { dbConnect } from "../../../../lib/mongodb";
+import { NextResponse } from "next/server";
+import { Readable } from "stream";
+import { v4 as uuidv4 } from "uuid";
+import { dbConnect, gfs } from "../../../../lib/mongodb";
 import Patient from "../../../../models/Patient";
 import patientSchema from "../../../../schema/patientSchema";
-import { NextApiRequest, NextApiResponse } from "next";
-import multer from "multer";
 
-interface MulterRequest extends NextApiRequest {
-    file: any;
-}
+function webToNodeStream(webStream: ReadableStream<Uint8Array>) : NodeJS.ReadableStream {
+    const nodeStream = new Readable({
+        read() {}
+    });
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage }).single("examPdf");
-
-const multerUpload = (req: NextApiRequest, res: NextApiResponse) => {
-    new Promise<void> ((resolve, reject) => {
-        upload(req as any, res as any, (uploadError: any) => {
-            if (uploadError && uploadError.code !== 'LIMIT_UNEXPECTED_FILE') {
-                return reject(uploadError);
-            }
-            return resolve();
+    const reader = webStream.getReader();
+    function processText({done, value} : {done: boolean, value?: Uint8Array}) : Promise<void> {
+        if (done) {
+            nodeStream.push(null);
+            return Promise.resolve();
         }
-    )}
-)}
+        nodeStream.push(Buffer.from(value!));
+        return reader.read().then(processText);
+    }
+    reader.read().then(processText);
+    return nodeStream;
+}
 
 export async function POST(req: Request) {
     await dbConnect();
@@ -33,18 +33,65 @@ export async function POST(req: Request) {
             (json as any)[entry[0]] = entry[1];
         }
 
-        //await multerUpload(req, res);
+        // file upload logic
+
         if (form.get("file")) {
             console.log("file found");
+            let file = form.get("file") as File;
+            const uniqueFilename = `${uuidv4()}_${file.name}`;
+
+            let fileId = await new Promise<string>((resolve, reject) => {
+                const writeStream = gfs!.openUploadStream(uniqueFilename);
+                const fileStream : NodeJS.ReadableStream = webToNodeStream(file.stream());
+
+                (fileStream).pipe(writeStream); // only way to get rid of type error
+
+                writeStream.on('finish', () => {
+                    console.log("file uploaded");
+                    resolve(writeStream.id.toString());
+                }); 
+
+                writeStream.on('error', (err) => {
+                    console.log(err);
+                    reject(err);
+                });
+            });
+            (json as any)["examPdfPath"] = fileId;
         }
+
         const data = patientSchema.parse(json);
         
         // give meaningful error message if there's a dup key (governmentId)
         if ((json as any)["governmentId"] && await Patient.exists({ governmentId: (json as any)["governmentId"] })) {
             throw new Error("Ya existe un paciente con ese número de identificación");
         }
+
         const newPatient = new Patient(data);
         await newPatient.save();
+
+        // fetching file from gridfs for debugging purposes
+        if ((json as any)["examPdfPath"]) {
+            const fileId = (json as any)["examPdfPath"];
+            try {
+                let uploadedFileContent = await new Promise<Buffer>((resolve, reject) => {
+                    const readStream = gfs!.openDownloadStreamByName(fileId);
+                    let chunks: Buffer[] = [];
+                    readStream.on('data', (chunk) => {
+                        chunks.push(Buffer.from(chunk));
+                    });
+                    readStream.on('end', () => {
+                        resolve(Buffer.concat(chunks));
+                    });
+                    readStream.on('error', reject);
+                });
+
+                return NextResponse.json({ message: "Patient created successfully", file: uploadedFileContent.toString('base64') }, { status: 201 });
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
         return NextResponse.json({ message: "Patient created successfully" }, { status: 201 });
         
     } catch (e: any) {
