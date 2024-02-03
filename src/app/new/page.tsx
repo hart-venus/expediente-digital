@@ -46,6 +46,9 @@ export default function New() {
                         <IconComponent icon="bx:user" className={styles.second_icon}/>
                     </div>
                 </div>
+                <h2 className={styles.subheader}>Antecedentes</h2>
+                <label htmlFor="familyBackground" className={styles.label}>Antecedentes Familiares</label>
+                <textarea id="familyBackground" name="familyBackground" className={styles.textarea}/>
             </form>
         </main>
     )

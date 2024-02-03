@@ -82,3 +82,23 @@
     outline: 2px solid var(--text-color);
     border: 0;
 }
+
+.subheader {
+    font-size: 30px;
+    font-weight: 550;
+}
+
+.textarea {
+    margin: 8px 0;
+    padding: 8px;
+    /* remove decoration */
+    outline: 1px solid var(--transparent-text-color);
+    border-radius: 20px;
+    /* remove focused border */
+    border: none;
+    min-width: calc(100% - 35px);
+    max-width: calc(100% - 35px);
+    font-size: 20px;
+    min-height: 60px;
+    
+}
