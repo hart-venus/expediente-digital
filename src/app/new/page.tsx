@@ -49,6 +49,7 @@ export default function New() {
                 <h2 className={styles.subheader}>Antecedentes</h2>
                 <label htmlFor="familyBackground" className={styles.label}>Antecedentes Familiares</label>
                 <textarea id="familyBackground" name="familyBackground" className={styles.textarea}/>
+                {errors.familyBackground && <p className={styles.error}>{errors.familyBackground}</p>}
             </form>
         </main>
     )
