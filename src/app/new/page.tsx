@@ -46,10 +46,26 @@ export default function New() {
                         <IconComponent icon="bx:user" className={styles.second_icon}/>
                     </div>
                 </div>
-                <h2 className={styles.subheader}>Antecedentes</h2>
+                <div className={styles.subheaderContainer}>
+                    <h2 className={styles.subheader}>Antecedentes</h2>
+                    <div className={styles.divBar}/>
+                </div>
                 <label htmlFor="familyBackground" className={styles.label}>Antecedentes Familiares</label>
                 <textarea id="familyBackground" name="familyBackground" className={styles.textarea}/>
                 {errors.familyBackground && <p className={styles.error}>{errors.familyBackground}</p>}
+                <label htmlFor="pathologicBackground" className={styles.label}>Antecedentes Patológicos</label>
+                <textarea id="pathologicBackground" name="pathologicBackground" className={styles.textarea}/>
+                {errors.pathologicBackground && <p className={styles.error}>{errors.pathologicBackground}</p>}
+                <label htmlFor="nonPathologicBackground" className={styles.label}>Antecedentes No Patológicos</label>
+                <textarea id="nonPathologicBackground" name="nonPathologicBackground" className={styles.textarea}/>
+                {errors.nonPathologicBackground && <p className={styles.error}>{errors.nonPathologicBackground}</p>}
+                <label htmlFor="chirurgicalBackground" className={styles.label}>Antecedentes Quirúrgicos</label>
+                <textarea id="chirurgicalBackground" name="chirurgicalBackground" className={styles.textarea}/>
+                {errors.chirurgicalBackground && <p className={styles.error}>{errors.chirurgicalBackground}</p>}
+                <label htmlFor="ginoObstetricBackground" className={styles.label}>Antecedentes Gineco-Obstétricos</label>
+                <textarea id="ginoObstetricBackground" name="ginoObstetricBackground" className={styles.textarea}/>
+                {errors.ginoObstetricBackground && <p className={styles.error}>{errors.ginoObstetricBackground}</p>}
+
             </form>
         </main>
     )

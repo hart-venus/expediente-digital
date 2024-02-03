@@ -108,3 +108,14 @@
     min-height: 60px;
     
 }
+
+.subheaderContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 97%;
+}
+
+.subheaderContainer > .divBar { 
+    margin-top: 0;
+}
