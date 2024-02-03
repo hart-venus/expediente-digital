@@ -52,7 +52,7 @@
     align-items: center;
     justify-content: center;
     margin-right: 20px;
-    margin-top: 34px;
+    margin-top: 33px;
 }
 
 .second_icon { 
@@ -69,10 +69,10 @@
     margin: 8px 0;
     padding: 8px;
     /* remove decoration */
-    border: 1px solid var(--transparent-text-color);
+    outline: 1px solid var(--transparent-text-color);
     border-radius: 20px;
     /* remove focused border */
-    outline: none;
+    border: none;
     width: calc(100% - 32px);
     font-size: 20px;
 }

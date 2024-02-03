@@ -24,6 +24,10 @@ export default function New() {
                         <label htmlFor="fullName" className={styles.label}>Nombre</label>
                         <input type="text" id="fullName" name="fullName" className={styles.input} required/>
                         {errors.fullName && <p className={styles.error}>{errors.fullName}</p>}
+
+                        <label htmlFor="governmentId" className={styles.label}>Cédula</label>
+                        <input type="text" id="governmentId" name="governmentId" className={styles.input} required/>
+                        {errors.governmentId && <p className={styles.error}>{errors.governmentId}</p>}
                     </div>
 
                     <div className={styles.userBox}>
