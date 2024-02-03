@@ -21,12 +21,13 @@ export default function New() {
             <form onSubmit={handleSubmit}>
                 <div className={styles.formSectionContainer}>
                     <div className={styles.formSection}>
-                        .
+                        <label htmlFor="fullName" className={styles.label}>Nombre</label>
+                        <input type="text" id="fullName" name="fullName" className={styles.input} required/>
+                        {errors.fullName && <p className={styles.error}>{errors.fullName}</p>}
                     </div>
-                    <div className={styles.formSection}>
-                        <div className={styles.userBox}>
-                            <IconComponent icon="bx:user" className={styles.second_icon}/>
-                        </div>
+
+                    <div className={styles.userBox}>
+                        <IconComponent icon="bx:user" className={styles.second_icon}/>
                     </div>
                 </div>
             </form>
