@@ -28,6 +28,18 @@ export default function New() {
                         <label htmlFor="governmentId" className={styles.label}>Cédula</label>
                         <input type="text" id="governmentId" name="governmentId" className={styles.input} required/>
                         {errors.governmentId && <p className={styles.error}>{errors.governmentId}</p>}
+                    
+                        <label htmlFor="birthDate" className={styles.label}>Fecha de Nacimiento</label>
+                        <input type="date" id="birthDate" name="birthDate" className={styles.input} required/>
+                        {errors.birthDate && <p className={styles.error}>{errors.birthDate}</p>}
+
+                        <label htmlFor="phoneNumber" className={styles.label}>Teléfono</label>
+                        <input type="text" id="phoneNumber" name="phoneNumber" className={styles.input}/>
+                        {errors.phoneNumber && <p className={styles.error}>{errors.phoneNumber}</p>}
+
+                        <label htmlFor="email" className={styles.label}>Correo Electrónico</label>
+                        <input type="email" id="email" name="email" className={styles.input} required/>
+                        {errors.email && <p className={styles.error}>{errors.email}</p>}
                     </div>
 
                     <div className={styles.userBox}>
