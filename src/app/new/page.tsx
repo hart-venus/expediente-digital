@@ -65,7 +65,18 @@ export default function New() {
                 <label htmlFor="ginoObstetricBackground" className={styles.label}>Antecedentes Gineco-Obstétricos</label>
                 <textarea id="ginoObstetricBackground" name="ginoObstetricBackground" className={styles.textarea}/>
                 {errors.ginoObstetricBackground && <p className={styles.error}>{errors.ginoObstetricBackground}</p>}
+                <div className={styles.subheaderContainer}>
+                    <h2 className={styles.subheader}>Evaluación</h2>
+                    <div className={styles.divBar}/>
+                </div>
 
+                <label htmlFor="diagnosis" className={styles.label}>Diagnóstico</label>
+                <textarea id="diagnosis" name="diagnosis" className={styles.textarea}/>
+                {errors.diagnosis && <p className={styles.error}>{errors.diagnosis}</p>}
+                <label htmlFor="treatment" className={styles.label}>Tratamiento</label>
+                <textarea id="treatment" name="treatment" className={styles.textarea}/>
+                {errors.treatment && <p className={styles.error}>{errors.treatment}</p>}
+                
             </form>
         </main>
     )

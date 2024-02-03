@@ -109,11 +109,16 @@
     
 }
 
+.textarea:focus {
+    outline: 2px solid var(--text-color);
+    border: 0;
+}
+
 .subheaderContainer {
     display: flex;
     align-items: center;
     gap: 20px;
-    width: 97%;
+    width: 98%;
 }
 
 .subheaderContainer > .divBar { 
