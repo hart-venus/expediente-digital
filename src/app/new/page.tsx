@@ -19,7 +19,16 @@ export default function New() {
             </div>
             <div className={styles.divBar}/>
             <form onSubmit={handleSubmit}>
-                
+                <div className={styles.formSectionContainer}>
+                    <div className={styles.formSection}>
+                        .
+                    </div>
+                    <div className={styles.formSection}>
+                        <div className={styles.userBox}>
+                            <IconComponent icon="bx:user" className={styles.second_icon}/>
+                        </div>
+                    </div>
+                </div>
             </form>
         </main>
     )

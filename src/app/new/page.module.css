@@ -29,3 +29,30 @@
     height: 32px;
     margin-right: 16px;
 }
+
+.formSectionContainer {
+    
+    margin-top: 32px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    /* center within parent */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.userBox {
+    border: 3px solid var(--text-color);
+    border-radius: 30px;
+    height: 250px;
+    width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.second_icon { 
+    width: 64px;
+    height: 64px
+}
