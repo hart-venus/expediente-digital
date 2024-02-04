@@ -128,14 +128,42 @@
 .buttonContainer {
     outline: 1px solid var(--transparent-text-color);
     border-radius: 20px;
-    width: calc(100% - 20px);
-    height: 120px;
+    width: calc(100% - 60px);
+    min-height: 100px;
     /* drop shadow with --transparent-text-color */
     box-shadow: 2px 2px 10px 0px var(--transparent-text-color);
     margin-top: 20px;
     margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.button {
+    padding: 16px 32px;
+    border-radius: 30px;
+    font-size: 21px;
+    font-weight: 500;
+    background-color: var(--text-color);
+    color: var(--surface-color);
+    cursor: pointer;
+    border: none;
+    transition: 0.15s;
+}
+
+.button:hover {
+    box-shadow: 2px 2px 10px 0px var(--transparent-text-color);
 }
 
 .fileInput {
     display: none;
 }
+
+.fileModal {
+    display: flex;
+    gap: 20px;
+}
+
