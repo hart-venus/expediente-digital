@@ -6,9 +6,23 @@ import { useState } from "react";
 
 export default function New() {
     const [errors, setErrors] = useState({} as Record<string, string>);
+    const [selectedFile, setSelectedFile] = useState<string | null>(null);
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         console.log("submit");
     }
+
+    const triggerFileInput = () => {
+        const fileInput = document.getElementById("file");
+        fileInput?.click();
+    }
+
+    const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setSelectedFile(file.name);
+        }
+    }
+
     return (
         <main className={styles.main}>
             <div className={styles.navbar}> 
@@ -79,9 +93,13 @@ export default function New() {
 
                 <div className={styles.buttonContainer}>
                     <div className={styles.fileModal}>
-                        <input type="file" id="file" name="file" className={styles.fileInput}/>
-                        <button className={styles.button}>Subir Archivo de Examen</button>
-                        <p className={styles.fileText}>No se ha subido ningún archivo.</p>
+                        <input type="file" id="file" name="file" className={styles.fileInput} onChange={handleFileSelect}/>
+                        <button type="button" className={styles.button} onClick={triggerFileInput}>
+                            Subir Archivo de Examen
+                        </button>
+                        <p className={styles.fileText}>
+                            {selectedFile ? selectedFile : "No se ha subido ningún archivo."}
+                        </p>
                     </div>
                     <button type="submit" className={styles.button}>Registrar</button>
                 </div>
