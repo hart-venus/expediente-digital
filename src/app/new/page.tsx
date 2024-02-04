@@ -7,8 +7,12 @@ import { useState } from "react";
 export default function New() {
     const [errors, setErrors] = useState({} as Record<string, string>);
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setErrors({});
+        setIsLoading(true);
+
         console.log("Form submitted");
         const formData = new FormData(event.currentTarget);
 
@@ -43,6 +47,8 @@ export default function New() {
         } catch (error: any) {
             setErrors({nonFieldError: error.message});
         }
+
+        setIsLoading(false);
     }
 
     const triggerFileInput = () => {
@@ -58,7 +64,7 @@ export default function New() {
     }
 
     return (
-        <main className={styles.main}>
+        <main className={`${ styles.main } ${ isLoading ? styles.loading : "" }`}>
             <div className={styles.navbar}> 
                 <Link href="/">  
                     <IconComponent icon="lucide:arrow-left" className={styles.icon}/>

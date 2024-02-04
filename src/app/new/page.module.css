@@ -173,3 +173,9 @@
     font-size: 20px;
     margin-left: 20px;
 }
+
+.loading {
+    opacity: 0.5;
+    cursor: wait;
+    pointer-events: none; /* disable pointer events */
+}
