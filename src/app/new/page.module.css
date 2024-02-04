@@ -124,3 +124,18 @@
 .subheaderContainer > .divBar { 
     margin-top: 0;
 }
+
+.buttonContainer {
+    outline: 1px solid var(--transparent-text-color);
+    border-radius: 20px;
+    width: calc(100% - 20px);
+    height: 120px;
+    /* drop shadow with --transparent-text-color */
+    box-shadow: 2px 2px 10px 0px var(--transparent-text-color);
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.fileInput {
+    display: none;
+}

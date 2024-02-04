@@ -76,7 +76,13 @@ export default function New() {
                 <label htmlFor="treatment" className={styles.label}>Tratamiento</label>
                 <textarea id="treatment" name="treatment" className={styles.textarea}/>
                 {errors.treatment && <p className={styles.error}>{errors.treatment}</p>}
-                
+
+                <div className={styles.buttonContainer}>
+                    <input type="file" id="file" name="file" className={styles.fileInput}/>
+                    <button className={styles.button}>Subir Archivo de Examen</button>
+                    <p className={styles.fileText}>No se ha subido ningún archivo</p>
+                    <button type="submit" className={styles.button}>Registrar</button>
+                </div>
             </form>
         </main>
     )
