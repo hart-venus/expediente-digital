@@ -144,6 +144,7 @@
 
 .button {
     padding: 16px 32px;
+    height: fit-content;
     border-radius: 30px;
     font-size: 21px;
     font-weight: 500;
@@ -167,3 +168,7 @@
     gap: 20px;
 }
 
+
+.fileText {
+    font-size: 20px;
+}
