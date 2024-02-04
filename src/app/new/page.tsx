@@ -2,12 +2,33 @@
 import styles from "./page.module.css";
 import Link from "next/link";
 import IconComponent from "../../../components/Icon/Icon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function New() {
     const [errors, setErrors] = useState({} as Record<string, string>);
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
+    const [isDirty, setIsDirty] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+
+    useEffect(() => {
+        
+        if (isDirty) {
+            const msg = "¿Estás seguro que quieres salir? Los cambios no guardados se perderán.";
+            window.onbeforeunload = (event: BeforeUnloadEvent) => {
+                event.preventDefault(); // standard way to cancel the event
+                event.returnValue = msg;
+                return msg; // needed for old browsers
+            }
+        }
+
+        return () => {
+            window.onbeforeunload = null;
+        }
+    }, [isDirty])
+
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setErrors({});
@@ -63,6 +84,8 @@ export default function New() {
         }
     }
 
+    
+
     return (
         <main className={`${ styles.main } ${ isLoading ? styles.loading : "" }`}>
             <div className={styles.navbar}> 
@@ -72,18 +95,18 @@ export default function New() {
                 <h1 className={styles.header}>Registrar Paciente</h1>
             </div>
             <div className={styles.divBar}/>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={styles.form} onChange={() => setIsDirty(true)}>
                 <div className={styles.formSectionContainer}>
                     <div className={styles.formSection}>
-                        <label htmlFor="fullName" className={styles.label}>Nombre</label>
+                        <label htmlFor="fullName" className={styles.label}>Nombre *</label>
                         <input type="text" id="fullName" name="fullName" className={styles.input} required/>
                         {errors.fullName && <p className={styles.error}>{errors.fullName}</p>}
 
-                        <label htmlFor="governmentId" className={styles.label}>Cédula</label>
+                        <label htmlFor="governmentId" className={styles.label}>Cédula *</label>
                         <input type="text" id="governmentId" name="governmentId" className={styles.input} required/>
                         {errors.governmentId && <p className={styles.error}>{errors.governmentId}</p>}
                     
-                        <label htmlFor="birthDate" className={styles.label}>Fecha de Nacimiento</label>
+                        <label htmlFor="birthDate" className={styles.label}>Fecha de Nacimiento *</label>
                         <input type="date" id="birthDate" name="birthDate" className={styles.input} required/>
                         {errors.birthDate && <p className={styles.error}>{errors.birthDate}</p>}
 
@@ -91,7 +114,7 @@ export default function New() {
                         <input type="text" id="phoneNumber" name="phoneNumber" className={styles.input}/>
                         {errors.phoneNumber && <p className={styles.error}>{errors.phoneNumber}</p>}
 
-                        <label htmlFor="email" className={styles.label}>Correo Electrónico</label>
+                        <label htmlFor="email" className={styles.label}>Correo Electrónico *</label>
                         <input type="email" id="email" name="email" className={styles.input} required/>
                         {errors.email && <p className={styles.error}>{errors.email}</p>}
                     </div>
