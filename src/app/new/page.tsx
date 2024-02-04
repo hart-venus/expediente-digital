@@ -8,7 +8,41 @@ export default function New() {
     const [errors, setErrors] = useState({} as Record<string, string>);
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        console.log("submit");
+        event.preventDefault();
+        console.log("Form submitted");
+        const formData = new FormData(event.currentTarget);
+
+        // if I don't have a file, remove the file field from the form data
+        if (!selectedFile) {
+            formData.delete("file");
+        }
+
+        try {
+            const res = await fetch("/api/patients", {
+                method: "POST",
+                body: formData
+            });
+
+            if (res.ok) {
+                console.log("Patient registered");
+            } else {
+                const data = await res.json();
+                // scroll to the first element with the id of the first error
+
+                if (data.nonFieldError) {
+                    // scroll to bottom, where the nonFieldError is, do this on timeout to ensure the element is already rendered
+                    setTimeout(() => window.scrollTo({top: document.body.scrollHeight, behavior: "smooth"}), 200);
+                } else {
+                    const firstError = Object.keys(data)[0];
+                    const element = document.getElementById(firstError);
+                    window.scrollTo({top: element?.offsetTop, behavior: "smooth"});
+                }
+
+                setErrors(data);
+            }
+        } catch (error: any) {
+            setErrors({nonFieldError: error.message});
+        }
     }
 
     const triggerFileInput = () => {
@@ -103,6 +137,8 @@ export default function New() {
                     </div>
                     <button type="submit" className={styles.button}>Registrar</button>
                 </div>
+
+                {errors.nonFieldError && <p className={styles.nonFieldError}>{errors.nonFieldError}</p>}
             </form>
         </main>
     )

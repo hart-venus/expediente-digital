@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
-import mongoose from "mongoose";
+import { z } from "zod";
 import { Readable } from "stream";
 import { v4 as uuidv4 } from "uuid";
 import { dbConnect, gfs } from "../../../../lib/mongodb";
 import Patient from "../../../../models/Patient";
 import patientSchema from "../../../../schema/patientSchema";
+/* mongoose for validation error type */
+import Mongoose from 'mongoose';
 
 function webToNodeStream(webStream: ReadableStream<Uint8Array>) : NodeJS.ReadableStream {
     const nodeStream = new Readable({
@@ -97,6 +99,16 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: "Patient created successfully" }, { status: 201 });
         
     } catch (e: any) {
-        return NextResponse.json({ error: e.message }, { status: 500});
+
+        if (e instanceof z.ZodError) {
+            return NextResponse.json(e.flatten().fieldErrors, { status: 400 });
+        } else if (e instanceof Mongoose.Error.ValidationError) {
+            const fieldErrors = Object.keys(e.errors).reduce((acc: any, key) => {
+                acc[key] = e.errors[key].message;
+                return acc;
+            }, {});
+            return NextResponse.json(fieldErrors, { status: 400 });
+        }
+        return NextResponse.json({ nonFieldError: e.message }, { status: 500});
     }
 }
