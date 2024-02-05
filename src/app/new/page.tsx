@@ -33,7 +33,6 @@ export default function New() {
         event.preventDefault();
         setErrors({});
         setIsLoading(true);
-
         console.log("Form submitted");
         const formData = new FormData(event.currentTarget);
 
@@ -50,6 +49,7 @@ export default function New() {
 
             if (res.ok) {
                 console.log("Patient registered");
+                router.push("/");
             } else {
                 const data = await res.json();
                 // scroll to the first element with the id of the first error
@@ -68,7 +68,6 @@ export default function New() {
         } catch (error: any) {
             setErrors({nonFieldError: error.message});
         }
-
         setIsLoading(false);
     }
 

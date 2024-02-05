@@ -3,6 +3,7 @@
 :root {
     --surface-color: rgb(255, 255, 255);
     --text-color: rgb(16, 71, 45);
+    --error-color: rgb(204, 33, 47);
     --transparent-text-color: rgba(16, 71, 45, 0.4);
     --main-font: 'Inter Tight', sans-serif;
 }

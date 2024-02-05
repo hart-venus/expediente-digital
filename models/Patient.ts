@@ -93,5 +93,5 @@ const PatientSchema = new Schema<IPatient>({
   timestamps: true // Adds createdAt and updatedAt timestamps
 });
 
-const Patient = mongoose.model<IPatient>('Patient', PatientSchema);
+const Patient = mongoose.models.Patient ?? mongoose.model<IPatient>('Patient', PatientSchema);
 export default Patient;

@@ -179,3 +179,25 @@
     cursor: wait;
     pointer-events: none; /* disable pointer events */
 }
+
+.error {
+    background-color: var(--error-color);
+    width: 95.4%;
+    padding: 8px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px 0px var(--error-color);
+    color: var(--surface-color);
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.nonFieldError {
+    background-color: var(--error-color);
+    width: calc(100% - 32px);
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 2px 2px 10px 0px var(--error-color);
+    color: var(--surface-color);
+    font-weight: 600;
+    font-size: 18px;
+}
