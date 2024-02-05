@@ -189,6 +189,8 @@
     color: var(--surface-color);
     font-weight: 600;
     font-size: 18px;
+    display: flex;
+    align-items: center;
 }
 
 .nonFieldError {
@@ -200,4 +202,11 @@
     color: var(--surface-color);
     font-weight: 600;
     font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.errorIcon {
+    margin-right: 8px;
+    --text-color: var(--surface-color);
 }
