@@ -112,3 +112,28 @@ export async function POST(req: Request) {
         return NextResponse.json({ nonFieldError: e.message }, { status: 500});
     }
 }
+
+// GET function to fetch all patients' identifier data
+// id, fullName, governmentId, birthDate, phoneNumber (optional), email
+// only gets isActive: true patients, sorts by last modified (more recent first)
+
+export async function GET(req: Request) {
+    await dbConnect();
+    try {
+        const patients = await Patient.find({ isActive: true }).sort({ updatedAt: -1 });
+        // filter response to only include the fields we want
+        const response = patients.map((patient) => {
+            return {
+                id: patient._id,
+                fullName: patient.fullName,
+                governmentId: patient.governmentId,
+                birthDate: patient.birthDate,
+                phoneNumber: patient.phoneNumber,
+                email: patient.email
+            };
+        });
+        return NextResponse.json(response, { status: 200 });
+    } catch (e) {
+        return NextResponse.json({ message: "Internal server error" }, { status: 500 });
+    }
+}
