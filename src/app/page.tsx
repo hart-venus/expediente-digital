@@ -4,6 +4,7 @@ import SearchBar from "../../components/SearchBar/SearchBar";
 import IconComponent from "../../components/Icon/Icon";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import PatientCard from "../../components/PatientCard/PatientCard";
 
 interface patientInfo {
   id: string;
@@ -44,6 +45,11 @@ export default function Home() {
       </div>
       <SearchBar/>
       <div className={styles.divBar}/>
+      <div className={styles.patientList}>
+        {patients.map((patient) => (
+          <PatientCard key={patient.id} {...patient}/>
+        ))}
+      </div>
     </main>
   );
 }
