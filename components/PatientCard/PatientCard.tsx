@@ -10,11 +10,15 @@ interface PatientCardProps {
 }
 
 export default function PatientCard(props: PatientCardProps) {
+
+    const parsedDate = new Date(props.birthDate);
+    const formattedDate = `${parsedDate.getDate()}/${parsedDate.getMonth()}/${parsedDate.getFullYear()}`;
+
     return (
         <div className={styles.card}>
             <h2>{props.fullName}</h2>
             <p>{props.governmentId}</p>
-            <p>{props.birthDate}</p>
+            <p>{formattedDate}</p>
             <p>{props.phoneNumber}</p>
             <p>{props.email}</p>
         </div>

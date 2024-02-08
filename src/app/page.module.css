@@ -33,3 +33,12 @@
     opacity: 0.5;
     pointer-events: none;
 }
+
+.patientList {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
