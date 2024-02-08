@@ -1,3 +1,4 @@
+import IconComponent from "../Icon/Icon";
 import styles from "./PatientCard.module.css";
 
 interface PatientCardProps {
@@ -16,11 +17,17 @@ export default function PatientCard(props: PatientCardProps) {
 
     return (
         <div className={styles.card}>
-            <h2>{props.fullName}</h2>
-            <p>{props.governmentId}</p>
-            <p>{formattedDate}</p>
-            <p>{props.phoneNumber}</p>
-            <p>{props.email}</p>
+            <div className={styles.userBox}>
+                <IconComponent icon="bx:user" className={styles.userIcon}/>
+            </div>
+
+            <div className={styles.userInfo}>
+                <h2 className={styles.name}>{props.fullName}</h2>
+                <p className={styles.field}>{props.governmentId}</p>
+                <p className={styles.field}>{formattedDate}</p>
+                <p className={styles.field}>{props.phoneNumber ? props.phoneNumber : "Sin n. teléfono"}</p>
+                <p className={styles.field}>{props.email}</p>
+            </div>
         </div>
     );
 }
