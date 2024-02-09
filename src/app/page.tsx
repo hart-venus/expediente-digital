@@ -19,6 +19,10 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [patients, setPatients] = useState<patientInfo[]>([]);
 
+  const onSearch = (input: string) => {
+    console.log(input);
+  }
+
   useEffect(() => {
     console.log("Fetching patients");
     setLoading(true);
@@ -43,7 +47,7 @@ export default function Home() {
           <IconComponent icon="fa:plus-square" className={styles.icon}/>
         </Link>
       </div>
-      <SearchBar/>
+      <SearchBar onInputChanged={onSearch}/>
       <div className={styles.divBar}/>
       <div className={styles.patientList}>
         {patients.map((patient) => (
