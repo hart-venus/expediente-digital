@@ -42,3 +42,26 @@
     justify-content: center;
     gap: 10px;
 }
+
+.noResults {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 300px);
+    justify-content: center;
+    align-items: center;
+}
+
+.noResults > h2 { 
+    font-size: 32px;
+    margin-bottom: 0;
+}
+.noResults > p {
+    font-size: 22px;
+}
+
+.gif {
+    border-radius: 1000px;
+    width: 240px;
+    height: 240px;
+}

@@ -5,6 +5,7 @@ import IconComponent from "../../components/Icon/Icon";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import PatientCard from "../../components/PatientCard/PatientCard";
+import Image from "next/image";
 import Fuse from "fuse.js";
 
 interface patientInfo {
@@ -69,7 +70,7 @@ export default function Home() {
           </div>
         :
           <div className={styles.noResults}>
-
+            <img src="https://media.tenor.com/fh604lLMYeMAAAAM/milk-pudding.gif" alt="No se encontraron resultados" className={styles.gif}/>
             <h2> ¡No se encontraron resultados! </h2>
             <p> Intenta refinar tu búsqueda, o <Link href="/new"> crea un nuevo paciente. </Link> </p>
 
