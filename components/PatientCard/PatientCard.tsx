@@ -11,9 +11,21 @@ interface PatientCardProps {
 }
 
 export default function PatientCard(props: PatientCardProps) {
+    // birthdate is YYYY-MM-DDTHH:MM:SSZ, we only need the date
+    const day = props.birthDate.split('T')[0];
+    const year = day.split('-')[0];
+    const month = day.split('-')[1];
+    const date = day.split('-')[2];
+    const parsedDate = new Date(`${month}/${date}/${year}`);
+    // make date format not use locale
+    
+    const formattedDate = `${parsedDate.getDate()}/${parsedDate.getMonth() + 1}/${parsedDate.getFullYear()}`;
 
-    const parsedDate = new Date(props.birthDate);
-    const formattedDate = `${parsedDate.getDate()}/${parsedDate.getMonth()}/${parsedDate.getFullYear()}`;
+    const calculateAge = (birthDate: Date) => {
+        const diff = Date.now() - birthDate.getTime();
+        const ageDate = new Date(diff);
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
 
     return (
         <div className={styles.card}>
@@ -29,7 +41,7 @@ export default function PatientCard(props: PatientCardProps) {
                 </p>
                 <p className={styles.field}>
                     <IconComponent icon="mingcute:birthday-2-line" className={styles.fieldIcon}/>
-                    {formattedDate}
+                    {`${formattedDate} (${calculateAge(parsedDate)} años)`}
                 </p>
                 <p className={styles.field}>
                     <IconComponent icon="mingcute:phone-line" className={styles.fieldIcon}/>

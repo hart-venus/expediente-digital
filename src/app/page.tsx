@@ -5,6 +5,7 @@ import IconComponent from "../../components/Icon/Icon";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import PatientCard from "../../components/PatientCard/PatientCard";
+import Fuse from "fuse.js";
 
 interface patientInfo {
   id: string;
@@ -16,11 +17,20 @@ interface patientInfo {
 }
 
 export default function Home() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [patients, setPatients] = useState<patientInfo[]>([]);
+  const [filteredPatients, setFilteredPatients] = useState<patientInfo[]>([]);
 
   const onSearch = (input: string) => {
-    console.log(input);
+    if (input === "") {
+      setFilteredPatients(patients);
+      return;
+    }
+    const fuse = new Fuse(patients, {
+      keys: ["fullName", "phoneNumber", "governmentId", "email"],
+    });
+    const result = fuse.search(input);
+    setFilteredPatients(result.map((res) => res.item));
   }
 
   useEffect(() => {
@@ -31,6 +41,7 @@ export default function Home() {
       .then((data) => {
         console.log(data);
         setPatients(data);
+        setFilteredPatients(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -49,11 +60,22 @@ export default function Home() {
       </div>
       <SearchBar onInputChanged={onSearch}/>
       <div className={styles.divBar}/>
-      <div className={styles.patientList}>
-        {patients.map((patient) => (
-          <PatientCard key={patient.id} {...patient}/>
-        ))}
-      </div>
+      { loading ? <div></div> :
+        filteredPatients.length > 0 ?
+          <div className={styles.patientList}>
+            {filteredPatients.map((patient) => (
+              <PatientCard key={patient.id} {...patient}/>
+            ))}
+          </div>
+        :
+          <div className={styles.noResults}>
+
+            <h2> ¡No se encontraron resultados! </h2>
+            <p> Intenta refinar tu búsqueda, o <Link href="/new"> crea un nuevo paciente. </Link> </p>
+
+          </div>
+      }
+
     </main>
   );
 }
