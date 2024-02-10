@@ -1,7 +1,3 @@
-.card {
-
-}
-
 .userBox {
     min-width: 160px;
     outline: 2px solid var(--text-color);
@@ -34,11 +30,20 @@
     border: 2px solid var(--transparent-text-color);
     border-radius: 20px;
     min-width: 480px;
+    transition: ease-in-out 0.02s;
     flex: 1;
+    background-color: var(--surface-color);
     display: flex;
     padding: 2px;
     /* remove link underline */
     text-decoration: none;
+}
+
+.link:hover {
+    outline: 3px solid var(--text-color);
+    scale: 1.05;
+    /* shadow */
+    box-shadow: 0 0 10px var(--text-color);
 }
 
 .fieldIcon {
