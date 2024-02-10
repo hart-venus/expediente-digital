@@ -14,7 +14,7 @@ interface PatientInfo {
     pathologicBackground?: string;
     nonPathologicBackground?: string;
     chirurgicalBackground?: string;
-    ginoObstetricBackground?: string;
+    ginecoObstetricBackground?: string;
     diagnosis?: string;
     treatment?: string;
     examPdfPath?: string;
@@ -102,30 +102,15 @@ export default function ViewPatient({params}: {params: {id: string}}) {
                     <div className={styles.divBar}/>
                 </div>
                 <label htmlFor="familyBackground" className={styles.label}>Antecedentes Familiares</label>
-                <textarea id="familyBackground" name="familyBackground" className={styles.textarea}/>
-                {errors.familyBackground && <p className={styles.error}>
-                    <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
-                    {errors.familyBackground}</p>}
+                <p className={styles.paragraph}>{patient?.familyBackground ? patient.familyBackground : "Sin antecedentes familiares."}</p>
                 <label htmlFor="pathologicBackground" className={styles.label}>Antecedentes Patológicos</label>
-                <textarea id="pathologicBackground" name="pathologicBackground" className={styles.textarea}/>
-                {errors.pathologicBackground && <p className={styles.error}>
-                    <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
-                    {errors.pathologicBackground}</p>}
+                <p className={styles.paragraph}>{patient?.pathologicBackground ? patient.pathologicBackground : "Sin antecedentes patológicos."}</p>
                 <label htmlFor="nonPathologicBackground" className={styles.label}>Antecedentes No Patológicos</label>
-                <textarea id="nonPathologicBackground" name="nonPathologicBackground" className={styles.textarea}/>
-                {errors.nonPathologicBackground && <p className={styles.error}>
-                    <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
-                    {errors.nonPathologicBackground}</p>}
+                <p className={styles.paragraph}>{patient?.nonPathologicBackground ? patient.nonPathologicBackground : "Sin antecedentes no patológicos."}</p>
                 <label htmlFor="chirurgicalBackground" className={styles.label}>Antecedentes Quirúrgicos</label>
-                <textarea id="chirurgicalBackground" name="chirurgicalBackground" className={styles.textarea}/>
-                {errors.chirurgicalBackground && <p className={styles.error}>
-                    <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
-                    {errors.chirurgicalBackground}</p>}
-                <label htmlFor="ginoObstetricBackground" className={styles.label}>Antecedentes Gineco-Obstétricos</label>
-                <textarea id="ginoObstetricBackground" name="ginoObstetricBackground" className={styles.textarea}/>
-                {errors.ginoObstetricBackground && <p className={styles.error}>
-                    <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
-                    {errors.ginoObstetricBackground}</p>}
+                <p className={styles.paragraph}>{patient?.chirurgicalBackground ? patient.chirurgicalBackground : "Sin antecedentes quirúrgicos."}</p>
+                <label htmlFor="ginecoObstetricBackground" className={styles.label}>Antecedentes Gineco-Obstétricos</label>
+                <p className={styles.paragraph}>{patient?.ginecoObstetricBackground ? patient.ginecoObstetricBackground : "Sin antecedentes gineco-obstétricos."}</p>
                 <div className={styles.subheaderContainer}>
                     <h2 className={styles.subheader}>Evaluación</h2>
                     <div className={styles.divBar}/>

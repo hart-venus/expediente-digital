@@ -153,11 +153,11 @@ export default function New() {
                 {errors.chirurgicalBackground && <p className={styles.error}>
                     <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                     {errors.chirurgicalBackground}</p>}
-                <label htmlFor="ginoObstetricBackground" className={styles.label}>Antecedentes Gineco-Obstétricos</label>
-                <textarea id="ginoObstetricBackground" name="ginoObstetricBackground" className={styles.textarea}/>
-                {errors.ginoObstetricBackground && <p className={styles.error}>
+                <label htmlFor="ginecoObstetricBackground" className={styles.label}>Antecedentes Gineco-Obstétricos</label>
+                <textarea id="ginecoObstetricBackground" name="ginecoObstetricBackground" className={styles.textarea}/>
+                {errors.ginecoObstetricBackground && <p className={styles.error}>
                     <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
-                    {errors.ginoObstetricBackground}</p>}
+                    {errors.ginecoObstetricBackground}</p>}
                 <div className={styles.subheaderContainer}>
                     <h2 className={styles.subheader}>Evaluación</h2>
                     <div className={styles.divBar}/>

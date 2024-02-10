@@ -81,6 +81,14 @@
     border-bottom: 2px dotted var(--transparent-text-color);
 }
 
+.paragraph {
+    font-size: 20px; 
+    margin: 13px 0;
+    width: 100%;
+    /* justify text */
+    text-align: justify;
+}
+
 .input { 
     margin: 8px 0;
     padding: 8px;
