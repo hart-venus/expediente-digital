@@ -22,11 +22,10 @@ interface PatientInfo {
 
 
 export default function ViewPatient({params}: {params: {id: string}}) {
-    const [errors, setErrors] = useState({} as Record<string, string>);
-    const [selectedFile, setSelectedFile] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [patient, setPatient] = useState<PatientInfo | null>(null);
     const [is404, setIs404] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
     
     const calculateAge = (birthDate: Date) => {
         const diff = Date.now() - birthDate.getTime();
@@ -42,6 +41,38 @@ export default function ViewPatient({params}: {params: {id: string}}) {
         const parsedDate = new Date(`${month}/${dateDay}/${year}`);
         return `${parsedDate.getDate()}/${parsedDate.getMonth() + 1}/${parsedDate.getFullYear()} (${calculateAge(parsedDate)} años)`;
     }
+
+    const handleDownload = () => {
+        setIsDownloading(true);
+        // this function fetches the examPdfPath from the patient object and downloads the file
+        // via the GET /api/files/:id route
+        // downloads in browser, with the file being a base64 string (examPdf from the response JSON)
+        // and the filename being the original filename (from the response JSON)
+        fetch(`/api/files/${patient!.examPdfPath}`)
+            .then((res) => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw new Error("Network response was not ok");
+                }
+            })
+            .then((data) => {
+                const fileName = data.filename;
+                // get extension from filename
+                const extension = fileName.split('.').pop();
+                const linkSource = `data:application/${extension};base64,${data.examPdf}`;
+                const downloadLink = document.createElement("a");
+                downloadLink.href = linkSource;
+                downloadLink.download = fileName;
+                downloadLink.click();
+                setIsDownloading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsDownloading(false);
+            });
+    }
+
     useEffect(() => {
         // fetch from /api/patients/:id 
         fetch(`/api/patients/${params.id}`)
@@ -69,7 +100,7 @@ export default function ViewPatient({params}: {params: {id: string}}) {
 
 
     return (
-        <main className={`${ styles.main } ${ isLoading ? styles.loading : "" }`}>
+        <main className={`${ styles.main } ${ isLoading || isDownloading ? styles.loading : "" }`}>
             <div className={styles.navbar}> 
                 <Link href="/">  
                     <IconComponent icon="lucide:arrow-left" className={styles.icon}/>
@@ -131,7 +162,7 @@ export default function ViewPatient({params}: {params: {id: string}}) {
 
                 {   patient?.examPdfPath &&
                     <div className={styles.buttonContainer}>
-                        <button type="button" className={styles.button} >
+                        <button type="button" className={styles.button} onClick={handleDownload}>
                             <IconComponent icon="fluent:arrow-download-28-filled" className={styles.buttonIcon}/>
                             Descargar archivo de examen
                         </button>
