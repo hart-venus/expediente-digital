@@ -4,6 +4,32 @@
     width: 60%;
 }
 
+.errorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 240px);
+
+}
+
+.errorContainer > h2 { 
+    font-size: 32px;
+    margin-bottom: 0;
+
+}
+
+.errorContainer > p { 
+    font-size: 22px;
+    width: 60%;
+    text-align: center;
+}
+
+.gif {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+}
 
 .header {
     font-weight: 600;

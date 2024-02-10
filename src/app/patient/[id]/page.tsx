@@ -78,7 +78,15 @@ export default function ViewPatient({params}: {params: {id: string}}) {
             </div>
             <div className={styles.divBar}/>
             
-            {!isLoading && <div className={styles.infoContainer}>
+            {   
+                is404 ? 
+                <div className={styles.errorContainer}>
+                    <img src="https://media.tenor.com/fh604lLMYeMAAAAM/milk-pudding.gif" alt="No se encontraron resultados" className={styles.gif}/>
+                    <h2> No se ha encontrado al paciente. </h2>
+                    <p> Es posible que el servidor no esté en línea o que este paciente se haya desactivado. <Link href="/"> Volver a la página principal. </Link> </p>
+                </div> : 
+
+                !isLoading && <div className={styles.infoContainer}>
                 <div className={styles.formSectionContainer}>
                 <div className={styles.formSection}>
                     <label htmlFor="fullName" className={styles.label}>Nombre</label>
@@ -117,15 +125,9 @@ export default function ViewPatient({params}: {params: {id: string}}) {
                 </div>
 
                 <label htmlFor="diagnosis" className={styles.label}>Diagnóstico</label>
-                <textarea id="diagnosis" name="diagnosis" className={styles.textarea}/>
-                {errors.diagnosis && <p className={styles.error}>
-                    <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
-                    {errors.diagnosis}</p>}
+                <p className={styles.paragraph}>{patient?.diagnosis ? patient.diagnosis : "Sin diagnóstico."}</p>
                 <label htmlFor="treatment" className={styles.label}>Tratamiento</label>
-                <textarea id="treatment" name="treatment" className={styles.textarea}/>
-                {errors.treatment && <p className={styles.error}>
-                    <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
-                    {errors.treatment}</p>}
+                <p className={styles.paragraph}>{patient?.treatment ? patient.treatment : "Sin tratamiento."}</p>
                 <div className={styles.buttonContainer}>
                     <div className={styles.fileModal}>
                         <input type="file" id="file" name="file" className={styles.fileInput} />
