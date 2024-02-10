@@ -1,10 +1,5 @@
 .card {
-    border: 2px solid var(--transparent-text-color);
-    border-radius: 20px;
-    min-width: 480px;
-    flex: 1;
-    display: flex;
-    padding: 2px;
+
 }
 
 .userBox {
@@ -33,6 +28,17 @@
     width: 48px;
     height: 48px;
 
+}
+
+.link {
+    border: 2px solid var(--transparent-text-color);
+    border-radius: 20px;
+    min-width: 480px;
+    flex: 1;
+    display: flex;
+    padding: 2px;
+    /* remove link underline */
+    text-decoration: none;
 }
 
 .fieldIcon {
