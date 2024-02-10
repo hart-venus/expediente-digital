@@ -40,10 +40,8 @@
 }
 
 .link:hover {
-    outline: 3px solid var(--text-color);
-    scale: 1.05;
-    /* shadow */
-    box-shadow: 0 0 10px var(--text-color);
+    outline: 2px solid var(--text-color);
+    scale: 1.02;
 }
 
 .fieldIcon {
