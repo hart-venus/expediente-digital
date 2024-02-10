@@ -23,7 +23,8 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
         });
         const filename = await conn.collection('pdfs.files').findOne({ _id: new ObjectId(params.id) }).then((file) => file?.filename);
         return NextResponse.json({ examPdf: buffer.toString('base64'), filename });
-    } catch {
+    } catch (e) {
+        console.log(e);
         return NextResponse.json({ error: "File not found" }, { status: 404 });
     }   
 }

@@ -28,26 +28,25 @@ declare global {
 }
 
 async function dbConnect(): Promise<mongoose.Connection> {
-    if (cached.conn) {
-        return cached.conn;
+    if (!cached.conn) {
+        if (!cached.promise) {
+            const opts: mongoose.ConnectOptions = {};
+            cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+                return mongoose.connection;
+            });
+        }
+        cached.conn = await cached.promise;
     }
 
-    if (!cached.promise) {
-        const opts: mongoose.ConnectOptions = {
-        };
-
-        cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-            // initialize gridfs
-            if (mongoose.connection.db) {
-                gfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
-                    bucketName: "pdfs"
-                });
-            }
-            return mongoose.connection;
+    // Check and initialize gfs here to ensure it's always available
+    if (!gfs && cached.conn.db) {
+        gfs = new mongoose.mongo.GridFSBucket(cached.conn.db, {
+            bucketName: 'pdfs',
         });
     }
-    cached.conn = await cached.promise;
+
     return cached.conn;
 }
+
 
 export { dbConnect, gfs };
