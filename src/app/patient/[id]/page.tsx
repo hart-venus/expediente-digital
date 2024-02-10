@@ -128,18 +128,16 @@ export default function ViewPatient({params}: {params: {id: string}}) {
                 <p className={styles.paragraph}>{patient?.diagnosis ? patient.diagnosis : "Sin diagnóstico."}</p>
                 <label htmlFor="treatment" className={styles.label}>Tratamiento</label>
                 <p className={styles.paragraph}>{patient?.treatment ? patient.treatment : "Sin tratamiento."}</p>
-                <div className={styles.buttonContainer}>
-                    <div className={styles.fileModal}>
-                        <input type="file" id="file" name="file" className={styles.fileInput} />
+
+                {   patient?.examPdfPath &&
+                    <div className={styles.buttonContainer}>
                         <button type="button" className={styles.button} >
-                            Subir Archivo de Examen
+                            <IconComponent icon="fluent:arrow-download-28-filled" className={styles.buttonIcon}/>
+                            Descargar archivo de examen
                         </button>
-                        <p className={styles.fileText}>
-                            {selectedFile ? selectedFile : "No se ha subido ningún archivo."}
-                        </p>
                     </div>
-                    <button type="submit" className={styles.button}>Registrar</button>
-                </div>
+                }
+
             </div>}
         </main>
     )
