@@ -71,31 +71,6 @@ export async function POST(req: Request) {
 
         const newPatient = new Patient(data);
         await newPatient.save();
-
-        // fetching file from gridfs for debugging purposes
-        /* 
-        
-        if ((json as any)["examPdfPath"]) {
-            const fileId : string = (json as any)["examPdfPath"];
-            const objectId = new mongoose.Types.ObjectId(fileId);
-            try {
-                let uploadedFileContent = await new Promise<Buffer>((resolve, reject) => {
-                    const readStream = gfs!.openDownloadStream(objectId);
-                    let chunks: Buffer[] = [];
-                    readStream.on('data', (chunk) => {
-                        chunks.push(Buffer.from(chunk));
-                    });
-                    readStream.on('end', () => {
-                        resolve(Buffer.concat(chunks));
-                    });
-                    readStream.on('error', reject);
-                });
-
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        */
         return NextResponse.json({ message: "Patient created successfully" }, { status: 201 });
         
     } catch (e: any) {
