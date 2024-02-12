@@ -53,6 +53,12 @@ export default function PatientCard(props: PatientCardProps) {
                         {props.email}
                     </p>
                 </div>
+                <div className={styles.options}>
+                    <Link href={`/patient/${props.id}/edit`}>
+                        <IconComponent icon="fluent:edit-16-filled" className={styles.editIcon} />
+                    </Link>
+                    <IconComponent icon="fluent:delete-16-filled" className={styles.deleteIcon} />
+                </div>
         </Link>
     );
 }

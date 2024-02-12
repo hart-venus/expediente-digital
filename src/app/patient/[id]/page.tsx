@@ -3,6 +3,7 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import IconComponent from "../../../../components/Icon/Icon";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface PatientInfo {
     fullName: string;
@@ -26,6 +27,7 @@ export default function ViewPatient({params}: {params: {id: string}}) {
     const [patient, setPatient] = useState<PatientInfo | null>(null);
     const [is404, setIs404] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
+    const router = useRouter();
     
     const calculateAge = (birthDate: Date) => {
         const diff = Date.now() - birthDate.getTime();
@@ -40,6 +42,10 @@ export default function ViewPatient({params}: {params: {id: string}}) {
         const dateDay = day.split('-')[2];
         const parsedDate = new Date(`${month}/${dateDay}/${year}`);
         return `${parsedDate.getDate()}/${parsedDate.getMonth() + 1}/${parsedDate.getFullYear()} (${calculateAge(parsedDate)} años)`;
+    }
+
+    const goToEdit = () => {
+        router.push(`/patient/${params.id}/edit`);
     }
 
     const handleDownload = () => {
@@ -160,14 +166,19 @@ export default function ViewPatient({params}: {params: {id: string}}) {
                 <label htmlFor="treatment" className={styles.label}>Tratamiento</label>
                 <p className={styles.paragraph}>{patient?.treatment ? patient.treatment : "Sin tratamiento."}</p>
 
-                {   patient?.examPdfPath &&
-                    <div className={styles.buttonContainer}>
-                        <button type="button" className={styles.button} onClick={handleDownload}>
-                            <IconComponent icon="fluent:arrow-download-28-filled" className={styles.buttonIcon}/>
-                            Descargar archivo de examen
-                        </button>
-                    </div>
-                }
+                <div className={styles.buttonContainer}>
+                    {   patient?.examPdfPath &&
+                            <button type="button" className={styles.button} onClick={handleDownload}>
+                                <IconComponent icon="fluent:arrow-download-28-filled" className={styles.buttonIcon}/>
+                                Descargar archivo de examen
+                            </button>
+                    }
+                    <button type="button" className={styles.button} onClick={goToEdit}>
+                        <IconComponent icon="fluent:edit-16-filled" className={styles.buttonIcon}/>
+                        Editar información del paciente
+                    </button>
+                </div>
+
 
             </div>}
         </main>
