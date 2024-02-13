@@ -5,6 +5,21 @@ import IconComponent from "../../../../../components/Icon/Icon";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+interface PatientInfo {
+    fullName: string;
+    governmentId: string; 
+    birthDate: string;
+    email: string;
+    phoneNumber?: string;
+    familyBackground?: string;
+    pathologicBackground?: string;
+    nonPathologicBackground?: string;
+    chirurgicalBackground?: string;
+    ginecoObstetricBackground?: string;
+    diagnosis?: string;
+    treatment?: string;
+}
+
 export default function Edit({params}: {params: {id: string}}) {
     const [errors, setErrors] = useState({} as Record<string, string>);
     const [selectedFile, setSelectedFile] = useState<string | null>(null);
@@ -12,6 +27,8 @@ export default function Edit({params}: {params: {id: string}}) {
     const [isLoading, setIsLoading] = useState(false);
     const [isFetching, setIsFetching] = useState(true);
     const [is404, setIs404] = useState(false);
+    const [patient, setPatient] = useState<PatientInfo | null>(null);
+    const [oldPdfPath, setOldPdfPath] = useState<string | null>(null);
     const router = useRouter();
 
     // fetch patient
@@ -25,8 +42,8 @@ export default function Edit({params}: {params: {id: string}}) {
                 }
             })
             .then((data) => {
-                //setPatient(data);
-                console.log(data);
+                setPatient({...data, birthDate: toHtmlDate(data.birthDate)});
+                setOldPdfPath(data.examPdfPath);
                 setIsFetching(false);
             })
             .catch((e) => {
@@ -35,6 +52,12 @@ export default function Edit({params}: {params: {id: string}}) {
                 setIsFetching(false);
             })
     }, [params.id])
+
+    // function that converts a string javascript date to a html date string
+    const toHtmlDate = (date: string) => {
+        const day = date.split('T')[0];
+        return day;
+    }
 
 
     useEffect(() => {
@@ -108,7 +131,15 @@ export default function Edit({params}: {params: {id: string}}) {
         }
     }
 
-    
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const {name, value} = event.target;
+        setPatient((prev) => ({...prev, [name]: value}) as any);
+    }
+
+    const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const {name, value} = event.target;
+        setPatient((prev) => ({...prev, [name]: value}) as any);
+    }
 
     return (
         <main className={`${ styles.main } ${ isLoading || isFetching ? styles.loading : "" }`}>
@@ -132,28 +163,28 @@ export default function Edit({params}: {params: {id: string}}) {
                 <div className={styles.formSectionContainer}>
                     <div className={styles.formSection}>
                         <label htmlFor="fullName" className={styles.label}>Nombre *</label>
-                        <input type="text" id="fullName" name="fullName" className={styles.input} required/>
+                        <input type="text" id="fullName" name="fullName" className={styles.input} value={patient?.fullName} onChange={handleInputChange} required/>
                         {errors.fullName && <p className={styles.error}>
                             <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                             {errors.fullName}
                         </p>}
                         <label htmlFor="governmentId" className={styles.label}>Cédula *</label>
-                        <input type="text" id="governmentId" name="governmentId" className={styles.input} required/>
+                        <input type="text" id="governmentId" name="governmentId" className={styles.input} value={patient?.governmentId} onChange={handleInputChange} required/>
                         {errors.governmentId && <p className={styles.error}>
                             <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                             {errors.governmentId}</p>}
                         <label htmlFor="birthDate" className={styles.label}>Fecha de Nacimiento *</label>
-                        <input type="date" id="birthDate" name="birthDate" className={styles.input} required/>
+                        <input type="date" id="birthDate" name="birthDate" className={styles.input} value={patient?.birthDate} onChange={handleInputChange} required/>
                         {errors.birthDate && <p className={styles.error}>
                             <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                             {errors.birthDate}</p>}
                         <label htmlFor="phoneNumber" className={styles.label}>Teléfono</label>
-                        <input type="text" id="phoneNumber" name="phoneNumber" className={styles.input}/>
+                        <input type="text" id="phoneNumber" name="phoneNumber" className={styles.input} value={patient?.phoneNumber} onChange={handleInputChange}/>
                         {errors.phoneNumber && <p className={styles.error}>
                             <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                             {errors.phoneNumber}</p>}
                         <label htmlFor="email" className={styles.label}>Correo Electrónico *</label>
-                        <input type="email" id="email" name="email" className={styles.input} required/>
+                        <input type="email" id="email" name="email" className={styles.input} value={patient?.email} onChange={handleInputChange} required/>
                         {errors.email && <p className={styles.error}>
                             <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                             {errors.email}</p>}
@@ -168,27 +199,27 @@ export default function Edit({params}: {params: {id: string}}) {
                     <div className={styles.divBar}/>
                 </div>
                 <label htmlFor="familyBackground" className={styles.label}>Antecedentes Familiares</label>
-                <textarea id="familyBackground" name="familyBackground" className={styles.textarea}/>
+                <textarea id="familyBackground" name="familyBackground" className={styles.textarea} value={patient?.familyBackground} onChange={handleTextAreaChange}/>
                 {errors.familyBackground && <p className={styles.error}>
                     <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                     {errors.familyBackground}</p>}
                 <label htmlFor="pathologicBackground" className={styles.label}>Antecedentes Patológicos</label>
-                <textarea id="pathologicBackground" name="pathologicBackground" className={styles.textarea}/>
+                <textarea id="pathologicBackground" name="pathologicBackground" className={styles.textarea} value={patient?.pathologicBackground} onChange={handleTextAreaChange}/>
                 {errors.pathologicBackground && <p className={styles.error}>
                     <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                     {errors.pathologicBackground}</p>}
                 <label htmlFor="nonPathologicBackground" className={styles.label}>Antecedentes No Patológicos</label>
-                <textarea id="nonPathologicBackground" name="nonPathologicBackground" className={styles.textarea}/>
+                <textarea id="nonPathologicBackground" name="nonPathologicBackground" className={styles.textarea} value={patient?.nonPathologicBackground} onChange={handleTextAreaChange}/>
                 {errors.nonPathologicBackground && <p className={styles.error}>
                     <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                     {errors.nonPathologicBackground}</p>}
                 <label htmlFor="chirurgicalBackground" className={styles.label}>Antecedentes Quirúrgicos</label>
-                <textarea id="chirurgicalBackground" name="chirurgicalBackground" className={styles.textarea}/>
+                <textarea id="chirurgicalBackground" name="chirurgicalBackground" className={styles.textarea} value={patient?.chirurgicalBackground} onChange={handleTextAreaChange}/>
                 {errors.chirurgicalBackground && <p className={styles.error}>
                     <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                     {errors.chirurgicalBackground}</p>}
                 <label htmlFor="ginecoObstetricBackground" className={styles.label}>Antecedentes Gineco-Obstétricos</label>
-                <textarea id="ginecoObstetricBackground" name="ginecoObstetricBackground" className={styles.textarea}/>
+                <textarea id="ginecoObstetricBackground" name="ginecoObstetricBackground" className={styles.textarea} value={patient?.ginecoObstetricBackground} onChange={handleTextAreaChange}/>
                 {errors.ginecoObstetricBackground && <p className={styles.error}>
                     <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                     {errors.ginecoObstetricBackground}</p>}
@@ -198,12 +229,12 @@ export default function Edit({params}: {params: {id: string}}) {
                 </div>
 
                 <label htmlFor="diagnosis" className={styles.label}>Diagnóstico</label>
-                <textarea id="diagnosis" name="diagnosis" className={styles.textarea}/>
+                <textarea id="diagnosis" name="diagnosis" className={styles.textarea} value={patient?.diagnosis} onChange={handleTextAreaChange}/>
                 {errors.diagnosis && <p className={styles.error}>
                     <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                     {errors.diagnosis}</p>}
                 <label htmlFor="treatment" className={styles.label}>Tratamiento</label>
-                <textarea id="treatment" name="treatment" className={styles.textarea}/>
+                <textarea id="treatment" name="treatment" className={styles.textarea} value={patient?.treatment} onChange={handleTextAreaChange}/>
                 {errors.treatment && <p className={styles.error}>
                     <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                     {errors.treatment}</p>}
