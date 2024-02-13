@@ -84,7 +84,7 @@ export async function PUT(req: Request, { params }: { params: { id: string}}) {
         if ((json as any)["governmentId"] && await Patient.exists({ governmentId: (json as any)["governmentId"], _id: { $ne: params.id } })) {
             throw new Error("Ya existe un paciente con ese número de identificación");
         }
-        await Patient.findByIdAndUpdate(params.id, newData, { new: true });
+        await Patient.findByIdAndUpdate(params.id, newData, { new: true, runValidators: true });
         return NextResponse.json({ message: "Patient updated successfully" });
     } catch (e: any) {
         if (e instanceof z.ZodError) {

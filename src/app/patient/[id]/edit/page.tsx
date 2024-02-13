@@ -120,14 +120,14 @@ export default function Edit({params}: {params: {id: string}}) {
         }
 
         try {
-            const res = await fetch("/api/patients", {
-                method: "POST",
+            const res = await fetch(`/api/patients/${params.id}`, {
+                method: "PUT",
                 body: formData
             });
 
             if (res.ok) {
-                console.log("Patient registered");
-                router.push("/");
+                console.log("Patient edited successfully");
+                router.push("/patient/" + params.id);
             } else {
                 const data = await res.json();
                 // scroll to the first element with the id of the first error
@@ -284,7 +284,7 @@ export default function Edit({params}: {params: {id: string}}) {
                             {selectedFile ? selectedFile : "No se ha subido ningún archivo."}
                         </p>
                     </div>
-                    <button type="submit" className={styles.button}>Registrar</button>
+                    <button type="submit" className={styles.button}>Guardar cambios</button>
                 </div>
 
                 {errors.nonFieldError && <p className={styles.nonFieldError}>
