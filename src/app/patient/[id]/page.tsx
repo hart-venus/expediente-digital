@@ -177,6 +177,10 @@ export default function ViewPatient({params}: {params: {id: string}}) {
                         <IconComponent icon="fluent:edit-16-filled" className={styles.buttonIcon}/>
                         Editar información del paciente
                     </button>
+                    <button type="button" className={styles.deleteButton}>
+                        <IconComponent icon="fluent:delete-16-filled" className={styles.buttonIcon}/>
+                        Eliminar paciente
+                    </button>
                 </div>
 
 
