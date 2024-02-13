@@ -4,6 +4,7 @@ import Link from "next/link";
 import IconComponent from "../../../../components/Icon/Icon";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { deleteHelper } from "../../../../utils/deleteHelper";
 
 interface PatientInfo {
     fullName: string;
@@ -46,6 +47,12 @@ export default function ViewPatient({params}: {params: {id: string}}) {
 
     const goToEdit = () => {
         router.push(`/patient/${params.id}/edit`);
+    }
+
+    const handleDelete = async () => {
+        if (await deleteHelper(params.id)) {
+            router.push('/');
+        }
     }
 
     const handleDownload = () => {
@@ -177,7 +184,7 @@ export default function ViewPatient({params}: {params: {id: string}}) {
                         <IconComponent icon="fluent:edit-16-filled" className={styles.buttonIcon}/>
                         Editar información del paciente
                     </button>
-                    <button type="button" className={styles.deleteButton}>
+                    <button type="button" className={styles.deleteButton} onClick={handleDelete}>
                         <IconComponent icon="fluent:delete-16-filled" className={styles.buttonIcon}/>
                         Eliminar paciente
                     </button>
