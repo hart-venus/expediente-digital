@@ -59,6 +59,36 @@ export default function Edit({params}: {params: {id: string}}) {
         return day;
     }
 
+    const handleDownload = () => {
+        setIsLoading(true);
+        // this function fetches the examPdfPath from the patient object and downloads the file
+        // via the GET /api/files/:id route
+        // downloads in browser, with the file being a base64 string (examPdf from the response JSON)
+        // and the filename being the original filename (from the response JSON)
+        fetch(`/api/files/${oldPdfPath}`)
+            .then((res) => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw new Error("Network response was not ok");
+                }
+            })
+            .then((data) => {
+                const fileName = data.filename;
+                // get extension from filename
+                const extension = fileName.split('.').pop();
+                const linkSource = `data:application/${extension};base64,${data.examPdf}`;
+                const downloadLink = document.createElement("a");
+                downloadLink.href = linkSource;
+                downloadLink.download = fileName;
+                downloadLink.click();
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoading(false);
+            });
+    }
 
     useEffect(() => {
         
@@ -144,7 +174,7 @@ export default function Edit({params}: {params: {id: string}}) {
     return (
         <main className={`${ styles.main } ${ isLoading || isFetching ? styles.loading : "" }`}>
             <div className={styles.navbar}> 
-                <Link href="/">  
+                <Link href={`/patient/${params.id}`}>  
                     <IconComponent icon="lucide:arrow-left" className={styles.icon}/>
                 </Link>
                 <h1 className={styles.header}>Editar Paciente</h1>
@@ -240,9 +270,15 @@ export default function Edit({params}: {params: {id: string}}) {
                     {errors.treatment}</p>}
                 <div className={styles.buttonContainer}>
                     <div className={styles.fileModal}>
+                        {
+                            oldPdfPath && <button type="button" className={styles.button} onClick={handleDownload}>
+                                <IconComponent icon="fluent:arrow-download-28-filled" className={styles.buttonIcon}/>
+                                Descargar Archivo Original
+                            </button>
+                        }
                         <input type="file" id="file" name="file" className={styles.fileInput} onChange={handleFileSelect}/>
                         <button type="button" className={styles.button} onClick={triggerFileInput}>
-                            Subir Archivo de Examen
+                            Subir Nuevo Archivo de Examen
                         </button>
                         <p className={styles.fileText}>
                             {selectedFile ? selectedFile : "No se ha subido ningún archivo."}

@@ -160,7 +160,7 @@
     margin-bottom: 40px;
     display: flex;
     align-items: center;
-    padding: 10px 20px;
+    padding: 20px 20px;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 20px;
@@ -169,6 +169,7 @@
 .button {
     padding: 16px 32px;
     height: fit-content;
+    min-height: 64px;
     border-radius: 30px;
     font-size: 21px;
     font-weight: 500;
@@ -177,10 +178,21 @@
     cursor: pointer;
     border: none;
     transition: 0.15s;
+    margin: 0 8px;
+    display: flex;
+    align-items: center;
 }
 
 .button:hover {
     box-shadow: 2px 2px 10px 0px var(--transparent-text-color);
+}
+
+
+.buttonIcon {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    --text-color: var(--surface-color);
 }
 
 .fileInput {
@@ -190,6 +202,7 @@
 
 .fileModal {
     display: flex;
+    align-items: center;
 }
 
 
