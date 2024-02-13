@@ -20,6 +20,11 @@
     margin-top: 16px;
 }
 
+.none {
+    display: none;
+
+}
+
 .userIcon {
     width: 48px;
     height: 48px;
@@ -40,6 +45,15 @@
     border: 2px solid var(--transparent-text-color);
     border-radius: 8px;
     transition: ease-in-out 0.1s; 
+}
+
+.deleteButton {
+    display: block;
+    border: 0;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
 }
 
 .editIcon:hover {

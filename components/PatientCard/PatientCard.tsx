@@ -1,6 +1,9 @@
 import Link from "next/link";
 import IconComponent from "../Icon/Icon";
 import styles from "./PatientCard.module.css";
+import { deleteHelper } from "../../utils/deleteHelper";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface PatientCardProps {
     id: string;
@@ -14,12 +17,21 @@ interface PatientCardProps {
 export default function PatientCard(props: PatientCardProps) {
     // birthdate is YYYY-MM-DDTHH:MM:SSZ, we only need the date
     const day = props.birthDate.split('T')[0];
+    const [hide, setHide] = useState(false);
     const year = day.split('-')[0];
     const month = day.split('-')[1];
     const date = day.split('-')[2];
     const parsedDate = new Date(`${month}/${date}/${year}`);
-    // make date format not use locale
     
+    const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        const res = await deleteHelper(props.id);
+        if (res) { 
+            setHide(true);
+        }
+    }
+    
+    // make date format not use locale
     const formattedDate = `${parsedDate.getDate()}/${parsedDate.getMonth() + 1}/${parsedDate.getFullYear()}`;
 
     const calculateAge = (birthDate: Date) => {
@@ -29,7 +41,7 @@ export default function PatientCard(props: PatientCardProps) {
     }
 
     return (
-        <Link href={`/patient/${props.id}`} className={styles.link}>
+        <Link href={`/patient/${props.id}`} className={hide ? styles.none : styles.link}>
                 <div className={styles.userBox}>
                     <IconComponent icon="bx:user" className={styles.userIcon}/>
                 </div>
@@ -57,7 +69,9 @@ export default function PatientCard(props: PatientCardProps) {
                     <Link href={`/patient/${props.id}/edit`}>
                         <IconComponent icon="fluent:edit-16-filled" className={styles.editIcon} />
                     </Link>
-                    <IconComponent icon="fluent:delete-16-filled" className={styles.deleteIcon} />
+                    <button className={styles.deleteButton} onClick={handleDelete}>
+                        <IconComponent icon="fluent:delete-16-filled" className={styles.deleteIcon} />
+                    </button>
                 </div>
         </Link>
     );
