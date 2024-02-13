@@ -99,3 +99,18 @@ export async function PUT(req: Request, { params }: { params: { id: string}}) {
         return NextResponse.json({ nonFieldError: e.message }, { status: 500 });
     }
 }
+
+export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+    await dbConnect();
+    try {
+        const patient = await Patient.findById(params.id);
+        if (!patient) {
+            return NextResponse.json({ error: "Patient not found" }, { status: 404 });
+        }
+        await Patient.findByIdAndUpdate(params.id, { isActive: false });
+        return NextResponse.json({ message: "Patient deleted successfully" });
+    }
+    catch (e) {
+        return NextResponse.json({ error: "Patient not found" }, { status: 404 });
+    }
+}
