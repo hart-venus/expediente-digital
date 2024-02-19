@@ -1,0 +1,8 @@
+appId: com.hartvenus.expediente-digital
+productName: Expediente Digital
+mac:
+  category: public.app-category.business
+win:
+  target: nsis
+linux:
+  target: AppImage
