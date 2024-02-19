@@ -37,7 +37,7 @@ export default function Home() {
   useEffect(() => {
     console.log("Fetching patients");
     setLoading(true);
-    fetch("http://localhost:3000/api/patients")
+    fetch("/api/patients")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
