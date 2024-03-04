@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import Patient from "../../../../../models/Patient";
 import { dbConnect, gfs } from "../../../../../lib/mongodb";
 import { v4 as uuidv4 } from "uuid";
@@ -24,7 +24,10 @@ function webToNodeStream(webStream: ReadableStream<Uint8Array>) : NodeJS.Readabl
     reader.read().then(processText);
     return nodeStream;
 }
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+    if (req.cookies.get('token')?.value !== process.env.PASSWORD) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     // returns a patient's full information, and makes sure to return the file content if there's an examPdfId
     await dbConnect();
     try {
@@ -41,7 +44,11 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
 }
 
-export async function PUT(req: Request, { params }: { params: { id: string}}) {
+export async function PUT(req: NextRequest, { params }: { params: { id: string}}) {
+    if (req.cookies.get('token')?.value !== process.env.PASSWORD) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    
     await dbConnect();
 
     try {
@@ -100,7 +107,12 @@ export async function PUT(req: Request, { params }: { params: { id: string}}) {
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+    if (req.cookies.get('token')?.value !== process.env.PASSWORD) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    
+    
     await dbConnect();
     try {
         const patient = await Patient.findById(params.id);

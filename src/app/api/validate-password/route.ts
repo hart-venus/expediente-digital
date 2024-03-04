@@ -1,11 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
         const pass = await req.text();
         if (pass == process.env.PASSWORD) {
-            return NextResponse.json({ valid: true });
+            const res = NextResponse.json({ valid: true });
+            res.cookies.set('token', pass);
+            return res;
         }
         return NextResponse.json({ valid: false });
 
