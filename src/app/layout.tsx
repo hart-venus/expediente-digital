@@ -2,6 +2,7 @@
 import "./globals.css";
 import { LoginProvider } from "../../context/LoginContext";
 import { usePathname } from "next/navigation";
+import ProtectedLayout from "../../components/ProtectedLayout";
 
 
 export default function RootLayout({
@@ -20,9 +21,9 @@ export default function RootLayout({
                 {children}
               </>
             ) : (
-              <>
+              <ProtectedLayout>
                 {children}
-              </>
+              </ProtectedLayout>
             )
           }        
         </LoginProvider>

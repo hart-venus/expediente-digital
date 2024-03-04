@@ -1,9 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
-export const LoginContext = createContext({
-
-});
+export const LoginContext = createContext({});
 
 export const LoginProvider = ({ children }: any) => {
     const [token, setToken] = useState<string | null>(null);
