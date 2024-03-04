@@ -1,18 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
+import { setCookie, getCookie } from 'cookies-next';
 
 export const LoginContext = createContext({});
 
 export const LoginProvider = ({ children }: any) => {
     const [token, setToken] = useState<string | null>(null);
-
-    useEffect(() => {
-        // will run only on startup
-        const token = Cookies.get('token');
-        if (token) {
-            setToken(token);
-        }
-    }, []);
 
     const logIn = async (password: string) => {
         try {
@@ -23,14 +15,16 @@ export const LoginProvider = ({ children }: any) => {
             if (res.ok) {
                 const data = await res.json();
                 if (data.valid) {
-                    Cookies.set('token', password); 
                     setToken(password);
+                    return true;
                 }
             } else {
                 console.error('Failed to validate password');
+                return false;
             }
         } catch (e) {
             console.error(e);
+            return false;
         }
     };
     
