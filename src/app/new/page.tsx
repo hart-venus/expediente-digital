@@ -163,6 +163,16 @@ export default function New() {
                     <div className={styles.divBar}/>
                 </div>
 
+                <label htmlFor="currentIllness" className={styles.label}>Padecimiento Actual</label>
+                <textarea id="currentIllness" name="currentIllness" className={styles.textarea}/>
+                {errors.currentIllness && <p className={styles.error}>
+                    <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
+                    {errors.currentIllness}</p>}
+                <label htmlFor="vitalSignsPhysicalExam" className={styles.label}>Signos Vitales y Examen Físico</label>
+                <textarea id="vitalSignsPhysicalExam" name="vitalSignsPhysicalExam" className={styles.textarea}/>
+                {errors.vitalSignsPhysicalExam && <p className={styles.error}>
+                    <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
+                    {errors.vitalSignsPhysicalExam}</p>}
                 <label htmlFor="diagnosis" className={styles.label}>Diagnóstico</label>
                 <textarea id="diagnosis" name="diagnosis" className={styles.textarea}/>
                 {errors.diagnosis && <p className={styles.error}>
@@ -173,6 +183,11 @@ export default function New() {
                 {errors.treatment && <p className={styles.error}>
                     <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                     {errors.treatment}</p>}
+                <label htmlFor="progressNotes" className={styles.label}>Notas de Evolución</label>
+                <textarea id="progressNotes" name="progressNotes" className={styles.textarea}/>
+                {errors.progressNotes && <p className={styles.error}>
+                    <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
+                    {errors.progressNotes}</p>}
                 <div className={styles.buttonContainer}>
                     <div className={styles.fileModal}>
                         <input type="file" id="file" name="file" className={styles.fileInput} onChange={handleFileSelect}/>

@@ -1,9 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { dbConnect, gfs } from "../../../../../lib/mongodb"; // using MongoDB Mongoose GridFS API
 import { GridFSBucketReadStream, ObjectId } from "mongodb";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
     // returns the file content  
+    if (req.cookies.get('token')?.value !== process.env.PASSWORD) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     let conn = await dbConnect();
     try {
         // open a download stream for the file

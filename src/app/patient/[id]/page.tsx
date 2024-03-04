@@ -17,8 +17,11 @@ interface PatientInfo {
     nonPathologicBackground?: string;
     chirurgicalBackground?: string;
     ginecoObstetricBackground?: string;
+    currentIllness?: string;
+    vitalSignsPhysicalExam?: string;
     diagnosis?: string;
     treatment?: string;
+    progressNotes?: string;
     examPdfPath?: string;
 }
 
@@ -163,15 +166,22 @@ export default function ViewPatient({params}: {params: {id: string}}) {
                 <p className={styles.paragraph}>{patient?.chirurgicalBackground ? patient.chirurgicalBackground : "Sin antecedentes quirúrgicos."}</p>
                 <label htmlFor="ginecoObstetricBackground" className={styles.label}>Antecedentes Gineco-Obstétricos</label>
                 <p className={styles.paragraph}>{patient?.ginecoObstetricBackground ? patient.ginecoObstetricBackground : "Sin antecedentes gineco-obstétricos."}</p>
+                
                 <div className={styles.subheaderContainer}>
                     <h2 className={styles.subheader}>Evaluación</h2>
                     <div className={styles.divBar}/>
                 </div>
-
+                
+                <label htmlFor="currentIllness" className={styles.label}>Padecimiento Actual</label>
+                <p className={styles.paragraph}>{patient?.currentIllness ? patient.currentIllness : "Sin padecimiento actual."}</p>
+                <label htmlFor="vitalSignsPhysicalExam" className={styles.label}>Signos Vitales y Examen Físico</label>
+                <p className={styles.paragraph}>{patient?.vitalSignsPhysicalExam ? patient.vitalSignsPhysicalExam : "Sin signos vitales ni examen físico."}</p>
                 <label htmlFor="diagnosis" className={styles.label}>Diagnóstico</label>
                 <p className={styles.paragraph}>{patient?.diagnosis ? patient.diagnosis : "Sin diagnóstico."}</p>
                 <label htmlFor="treatment" className={styles.label}>Tratamiento</label>
                 <p className={styles.paragraph}>{patient?.treatment ? patient.treatment : "Sin tratamiento."}</p>
+                <label htmlFor="progressNotes" className={styles.label}>Notas de Evolución</label>
+                <p className={styles.paragraph}>{patient?.progressNotes ? patient.progressNotes : "Sin notas de evolución."}</p>
 
                 <div className={styles.buttonContainer}>
                     {   patient?.examPdfPath &&

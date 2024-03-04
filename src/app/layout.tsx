@@ -1,19 +1,34 @@
-import type { Metadata } from "next";
+'use client';
 import "./globals.css";
+import { LoginProvider } from "../../context/LoginContext";
+import { usePathname } from "next/navigation";
+import ProtectedLayout from "../../components/ProtectedLayout";
 
-export const metadata: Metadata = {
-  title: "Expediente Digital",
-  description: "Registro de pacientes y sus expedientes médicos.",
-};
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pn = usePathname();
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <LoginProvider>
+          {
+            pn === "/login" ? (
+              <>
+                {children}
+              </>
+            ) : (
+              <ProtectedLayout>
+                {children}
+              </ProtectedLayout>
+            )
+          }        
+        </LoginProvider>
+      
+      </body>
     </html>
   );
 }

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { Readable } from "stream";
 import { v4 as uuidv4 } from "uuid";
@@ -26,7 +26,10 @@ function webToNodeStream(webStream: ReadableStream<Uint8Array>) : NodeJS.Readabl
     return nodeStream;
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+    if (req.cookies.get('token')?.value !== process.env.PASSWORD) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     await dbConnect();
     try {
         const form = await req.formData();
@@ -92,7 +95,10 @@ export async function POST(req: Request) {
 // id, fullName, governmentId, birthDate, phoneNumber (optional), email
 // only gets isActive: true patients, sorts by last modified (more recent first)
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
+    if (req.cookies.get('token')?.value !== process.env.PASSWORD) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     await dbConnect();
     try {
         const patients = await Patient.find({ isActive: true }).sort({ updatedAt: -1 });
