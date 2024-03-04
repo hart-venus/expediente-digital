@@ -31,10 +31,19 @@ const patientSchema = z.object({
     ginecoObstetricBackground: z.string()
         .optional()
         .transform((str) => str ? str.trim() : str),
+    currentIllness: z.string()
+        .optional()
+        .transform((str) => str ? str.trim() : str),
+    vitalSignsPhysicalExam: z.string()
+        .optional()
+        .transform((str) => str ? str.trim() : str),
     diagnosis: z.string()
         .optional()
         .transform((str) => str ? str.trim() : str),
     treatment: z.string()
+        .optional()
+        .transform((str) => str ? str.trim() : str),
+    progressNotes: z.string()
         .optional()
         .transform((str) => str ? str.trim() : str),
     examPdfPath: z.string()

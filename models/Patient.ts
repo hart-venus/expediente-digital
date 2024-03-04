@@ -12,8 +12,11 @@ interface IPatient extends Document {
     nonPathologicBackground: string;
     chirurgicalBackground: string;
     ginecoObstetricBackground: string;
+    currentIllness: string;
+    vitalSignsPhysicalExam: string;
     diagnosis: string;
     treatment: string;
+    progressNotes: string;
     examPdfPath: string; // reference to the pdf in the gridfs
 }
 
@@ -70,12 +73,27 @@ const PatientSchema = new Schema<IPatient>({
         required: false,
         trim: true
     },
+    currentIllness: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    vitalSignsPhysicalExam: {
+        type: String,
+        required: false,
+        trim: true
+    },
     diagnosis: {
         type: String,
         required: false,
         trim: true
     },
     treatment: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    progressNotes: {
         type: String,
         required: false,
         trim: true
