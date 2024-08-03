@@ -16,6 +16,9 @@ const patientSchema = z.object({
     email: z.string()
         .email('Por favor ingrese un correo electrónico válido')
         .transform((str) => str.toLowerCase().trim()),
+    address: z.string()
+        .optional()
+        .transform((str) => str ? str.trim() : str),
     familyBackground: z.string()
         .optional()
         .transform((str) => str ? str.trim() : str),

@@ -7,6 +7,7 @@ interface IPatient extends Document {
     isActive: boolean;
     phoneNumber: string;
     email: string;
+    address: string;
     familyBackground: string;
     pathologicBackground: string;
     nonPathologicBackground: string;
@@ -47,6 +48,11 @@ const PatientSchema = new Schema<IPatient>({
         trim: true,
         lowercase: true,
         match: [/.+\@.+\..+/, 'Por favor ingrese un correo electrónico válido']
+    },
+    address: {
+        type: String,
+        required: false,
+        trim: true
     },
     familyBackground: {
         type: String,

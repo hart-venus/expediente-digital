@@ -13,7 +13,7 @@ export default function New() {
     const router = useRouter();
 
     useEffect(() => {
-        
+
         if (isDirty) {
             const msg = "¿Estás seguro que quieres salir? Los cambios no guardados se perderán.";
             window.onbeforeunload = (event: BeforeUnloadEvent) => {
@@ -83,12 +83,12 @@ export default function New() {
         }
     }
 
-    
+
 
     return (
         <main className={`${ styles.main } ${ isLoading ? styles.loading : "" }`}>
-            <div className={styles.navbar}> 
-                <Link href="/">  
+            <div className={styles.navbar}>
+                <Link href="/">
                     <IconComponent icon="lucide:arrow-left" className={styles.icon}/>
                 </Link>
                 <h1 className={styles.header}>Registrar Paciente</h1>
@@ -123,6 +123,11 @@ export default function New() {
                         {errors.email && <p className={styles.error}>
                             <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                             {errors.email}</p>}
+                        <label htmlFor="address" className={styles.label}>Dirección</label>
+                        <input type="text" id="address" name="address" className={styles.input}/>
+                        {errors.address && <p className={styles.error}>
+                            <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
+                            {errors.address}</p>}
                     </div>
 
                     <div className={styles.userBox}>

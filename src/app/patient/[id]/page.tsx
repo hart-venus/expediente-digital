@@ -8,10 +8,11 @@ import { deleteHelper } from "../../../../utils/deleteHelper";
 
 interface PatientInfo {
     fullName: string;
-    governmentId: string; 
+    governmentId: string;
     birthDate: string;
     email: string;
     phoneNumber?: string;
+    address?: string;
     familyBackground?: string;
     pathologicBackground?: string;
     nonPathologicBackground?: string;
@@ -32,13 +33,13 @@ export default function ViewPatient({params}: {params: {id: string}}) {
     const [is404, setIs404] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
     const router = useRouter();
-    
+
     const calculateAge = (birthDate: Date) => {
         const diff = Date.now() - birthDate.getTime();
         const ageDate = new Date(diff);
         return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
-    
+
     const formatDate = (date: string) => {
         const day = date.split('T')[0];
         const year = day.split('-')[0];
@@ -90,7 +91,7 @@ export default function ViewPatient({params}: {params: {id: string}}) {
     }
 
     useEffect(() => {
-        // fetch from /api/patients/:id 
+        // fetch from /api/patients/:id
         fetch(`/api/patients/${params.id}`)
             .then((res) => {
                 if (res.ok) {
@@ -117,21 +118,21 @@ export default function ViewPatient({params}: {params: {id: string}}) {
 
     return (
         <main className={`${ styles.main } ${ isLoading || isDownloading ? styles.loading : "" }`}>
-            <div className={styles.navbar}> 
-                <Link href="/">  
+            <div className={styles.navbar}>
+                <Link href="/">
                     <IconComponent icon="lucide:arrow-left" className={styles.icon}/>
                 </Link>
                 <h1 className={styles.header}>Información del Paciente</h1>
             </div>
             <div className={styles.divBar}/>
-            
-            {   
-                is404 ? 
+
+            {
+                is404 ?
                 <div className={styles.errorContainer}>
                     <img src="https://media.tenor.com/fh604lLMYeMAAAAM/milk-pudding.gif" alt="No se encontraron resultados" className={styles.gif}/>
                     <h2> No se ha encontrado al paciente. </h2>
                     <p> Es posible que el servidor no esté en línea o que este paciente se haya desactivado. <Link href="/"> Volver a la página principal. </Link> </p>
-                </div> : 
+                </div> :
 
                 !isLoading && <div className={styles.infoContainer}>
                 <div className={styles.formSectionContainer}>
@@ -146,6 +147,8 @@ export default function ViewPatient({params}: {params: {id: string}}) {
                     <p className={styles.text}>{patient?.phoneNumber ? patient.phoneNumber : "Sin n. teléfono"}</p>
                     <label htmlFor="email" className={styles.label}>Correo Electrónico </label>
                     <p className={styles.text}>{patient?.email}</p>
+                    <label htmlFor="address" className={styles.label}>Dirección</label>
+                    <p className={styles.text}>{patient?.address ? patient.address : "Sin dirección"}</p>
                 </div>
 
                     <div className={styles.userBox}>
@@ -166,12 +169,12 @@ export default function ViewPatient({params}: {params: {id: string}}) {
                 <p className={styles.paragraph}>{patient?.chirurgicalBackground ? patient.chirurgicalBackground : "Sin antecedentes quirúrgicos."}</p>
                 <label htmlFor="ginecoObstetricBackground" className={styles.label}>Antecedentes Gineco-Obstétricos</label>
                 <p className={styles.paragraph}>{patient?.ginecoObstetricBackground ? patient.ginecoObstetricBackground : "Sin antecedentes gineco-obstétricos."}</p>
-                
+
                 <div className={styles.subheaderContainer}>
                     <h2 className={styles.subheader}>Evaluación</h2>
                     <div className={styles.divBar}/>
                 </div>
-                
+
                 <label htmlFor="currentIllness" className={styles.label}>Padecimiento Actual</label>
                 <p className={styles.paragraph}>{patient?.currentIllness ? patient.currentIllness : "Sin padecimiento actual."}</p>
                 <label htmlFor="vitalSignsPhysicalExam" className={styles.label}>Signos Vitales y Examen Físico</label>

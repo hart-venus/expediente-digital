@@ -7,9 +7,10 @@ import { useRouter } from "next/navigation";
 
 interface PatientInfo {
     fullName: string;
-    governmentId: string; 
+    governmentId: string;
     birthDate: string;
     email: string;
+    address?: string;
     phoneNumber?: string;
     familyBackground?: string;
     pathologicBackground?: string;
@@ -94,7 +95,7 @@ export default function Edit({params}: {params: {id: string}}) {
     }
 
     useEffect(() => {
-        
+
         if (isDirty) {
             const msg = "¿Estás seguro que quieres salir? Los cambios no guardados se perderán.";
             window.onbeforeunload = (event: BeforeUnloadEvent) => {
@@ -176,8 +177,8 @@ export default function Edit({params}: {params: {id: string}}) {
 
     return (
         <main className={`${ styles.main } ${ isLoading || isFetching ? styles.loading : "" }`}>
-            <div className={styles.navbar}> 
-                <Link href={`/patient/${params.id}`}>  
+            <div className={styles.navbar}>
+                <Link href={`/patient/${params.id}`}>
                     <IconComponent icon="lucide:arrow-left" className={styles.icon}/>
                 </Link>
                 <h1 className={styles.header}>Editar Paciente</h1>
@@ -185,12 +186,12 @@ export default function Edit({params}: {params: {id: string}}) {
             <div className={styles.divBar}/>
             {
 
-            is404 ? 
+            is404 ?
             <div className={styles.errorContainer}>
                 <img src="https://media.tenor.com/fh604lLMYeMAAAAM/milk-pudding.gif" alt="No se encontraron resultados" className={styles.gif}/>
                 <h2> No se ha encontrado al paciente. </h2>
                 <p> Es posible que el servidor no esté en línea o que este paciente se haya desactivado. <Link href="/"> Volver a la página principal. </Link> </p>
-            </div> : 
+            </div> :
 
             !isFetching && <form onSubmit={handleSubmit} className={styles.form} onChange={() => setIsDirty(true)}>
                 <div className={styles.formSectionContainer}>
@@ -221,6 +222,11 @@ export default function Edit({params}: {params: {id: string}}) {
                         {errors.email && <p className={styles.error}>
                             <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
                             {errors.email}</p>}
+                        <label htmlFor="address" className={styles.label}>Dirección</label>
+                        <input type="text" id="address" name="address" className={styles.input} value={patient?.address} onChange={handleInputChange}/>
+                        {errors.address && <p className={styles.error}>
+                            <IconComponent icon="icon-park-solid:error" className={styles.errorIcon}/>
+                            {errors.address}</p>}
                     </div>
 
                     <div className={styles.userBox}>
